@@ -74,6 +74,30 @@ def check_num(numb: EngNum, input: list[str]) -> bool:
     return False
 
 
+def check_gears_num(numb: EngNum, input: list[str]) -> list[Point]:
+    field_max_y = len(input)-1
+    field_max_x = len(input[0])-1
+
+    min_y = max(numb.start.y-1, 0)
+    min_x = max(numb.start.x-1, 0)
+
+    max_y = min(numb.end.y+1, field_max_y)
+    max_x = min(numb.end.x+1, field_max_x)
+
+    gears = []
+    for y in range(min_y, max_y+1):
+        for x in range(min_x, max_x+1):
+            symbol = input[y][x]
+            if symbol == "*":
+                gears.append(Point(x, y))
+
+            # print("T", numb.id, x, y)
+            # return True
+
+    # print("F", numb.id)
+    return gears
+
+
 if __name__ == "__main__":
     input = parse_input()
 
@@ -82,8 +106,17 @@ if __name__ == "__main__":
         numbs.extend(parse_engnum(input[i], i))
 
     r = 0
+    found_gears: dict[Point, list[int]] = {}
     for numb in numbs:
-        if (check_num(numb, input)):
-            r += numb.id
+        gears = check_gears_num(numb, input)
+        for g in gears:
+            if g in found_gears:
+                found_gears[g].append(numb.id)
+            else:
+                found_gears[g] = [numb.id]
+
+    for k, v in found_gears.items():
+        if len(v) == 2:
+            r += v[0] * v[1]
 
     print(r)
