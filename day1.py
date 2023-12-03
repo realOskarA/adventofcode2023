@@ -1001,20 +1001,62 @@ input = [
     "5bszzkpcdxqkvkf7tgcone2",
 ]
 
+input2 = [
+    "two1nine",
+    "eightwothree",
+    "abcone2threexyz",
+    "xtwone3four",
+    "4nineeightseven2",
+    "zoneight234",
+    "7pqrstsixteen",
+]
+
+digits = [
+    ("one", "1"),
+    ("two", "2"),
+    ("three", "3"),
+    ("four", "4"),
+    ("five", "5"),
+    ("six", "6"),
+    ("seven", "7"),
+    ("eight", "8"),
+    ("nine", "9"),
+]
+
 
 def do_line(line: str) -> int:
     first = ""
-    for c in line:
-        if c.isnumeric():
-            first = c
+
+    for i in range(0, len(line)):
+        if line[i].isnumeric():
+            first = line[i]
             break
 
-    for c in line[::-1]:
-        if c.isnumeric():
-            first += c
+        for d in digits:
+            if line[i:].startswith(d[0]):
+                first = d[1]
+                break
+
+        if first:
             break
 
-    return int(first)
+    second = ""
+
+    for i in range(len(line)-1, -1, -1):
+        if line[i].isnumeric():
+            second = line[i]
+            break
+
+        for d in digits:
+            if line[:i+1].endswith(d[0]):
+                second = d[1]
+                break
+
+        if second:
+            break
+
+    print(line, first, second)
+    return int(first+second)
 
 
 if __name__ == "__main__":
