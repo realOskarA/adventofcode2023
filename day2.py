@@ -33,6 +33,21 @@ def check_round(round: Game) -> bool:
     return True
 
 
+def find_pow(round: Game) -> int:
+    mincol = {
+        "red": 0,
+        "green": 0,
+        "blue": 0,
+    }
+
+    for h in r.hands:
+        mincol["red"] = max(mincol["red"], h.get("red", 0))
+        mincol["green"] = max(mincol["green"], h.get("green", 0))
+        mincol["blue"] = max(mincol["blue"], h.get("blue", 0))
+
+    return mincol["red"] * mincol["blue"] * mincol["green"]
+
+
 def parse_input(line: str) -> Game:
     s1 = line.find(":")
 
@@ -56,7 +71,6 @@ if __name__ == "__main__":
 
     result = 0
     for r in rounds:
-        if check_round(r):
-            result += r.id
+        result += find_pow(r)
 
     print(result)
