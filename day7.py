@@ -6,7 +6,7 @@ VALUE_MAP = {
     "A": 14,
     "K": 13,
     "Q": 12,
-    "J": 11,
+    "J": 1,
     "T": 10,
     "9": 9,
     "8": 8,
@@ -39,14 +39,23 @@ class Hand:
 def rank_hand(hand: list[int]) -> int:
     mapped_cards = {}
 
+    jokers = 0
     for c in hand:
+        if c == 1:
+            jokers += 1
+            continue
+
         if c in mapped_cards:
             mapped_cards[c] += 1
         else:
             mapped_cards[c] = 1
 
+    if jokers == 5:
+        return 1  # Five of a kind
+
     unique = list(mapped_cards.values())
     unique.sort(reverse=True)
+    unique[0] += jokers
     # print(unique)
 
     num_unique = len(unique)
