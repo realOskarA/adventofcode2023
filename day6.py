@@ -17,8 +17,8 @@ def calc(time: int, distance: int) -> int:
 
 
 if __name__ == "__main__":
-    times = [35, 93, 73, 66]
-    distances = [212, 2060, 1201, 1044]
+    times = [35937366]
+    distances = [212206012011044]
 
     r = 1
     for i in range(0, len(times)):
