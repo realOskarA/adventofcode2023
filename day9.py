@@ -40,8 +40,11 @@ def predict_sequence(numbs: list[int]) -> int:
             break
 
     new_num = 0
-    for i in range(0, len(steps)):
-        new_num += steps[i][-1]
+
+    for i in range(len(steps)-2, -1, -1):
+        new_num2 = steps[i][0] - new_num
+        # print(f"{steps[i][0]} - {new_num} = {new_num2}")
+        new_num = new_num2
 
     print(new_num)
     return new_num
